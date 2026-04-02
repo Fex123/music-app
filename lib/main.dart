@@ -108,8 +108,6 @@ class _MainShellState extends State<MainShell> {
             label: 'Settings',
           ),
         ],
-<<<<<<< HEAD
-=======
       ),
     );
   }
@@ -182,19 +180,7 @@ class _BlankPage extends StatelessWidget {
           title,
           style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
         ),
->>>>>>> 066f416 (main.dart fixed)
       ),
     );
   }
 }
-
-// ------------------------------------------------------------
-// BLANK PAGE WIDGETS
-// ------------------------------------------------------------
-
-class MyProfilePage extends StatelessWidget {
-  const MyProfilePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const _BlankPage(title: 'My Profile
