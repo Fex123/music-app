@@ -55,7 +55,6 @@ class LoginScreen extends StatelessWidget {
           ],
         ),
       ),
-<<<<<<< HEAD
     );
   }
 }
@@ -113,24 +112,15 @@ class _MainShellState extends State<MainShell> {
             label: 'Settings',
           ),
         ],
-=======
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
->>>>>>> 17f664e0e7814130d9bed98675427164d356fa91
       ),
     );
   }
 }
 
-<<<<<<< HEAD
 // ------------------------------------------------------------
 // BLANK PAGE WIDGETS (KEEP THESE FOR OTHER TABS ONLY)
 // ------------------------------------------------------------
 
-=======
->>>>>>> 17f664e0e7814130d9bed98675427164d356fa91
 class MyProfilePage extends StatelessWidget {
   const MyProfilePage({super.key});
   @override
@@ -149,19 +139,30 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) => const _BlankPage(title: 'Home');
 }
 
-<<<<<<< HEAD
-// ❌ REMOVED THE OLD FestivalsPage HERE  
-// (It was overriding your real page)
-=======
-class FestivalsPage extends StatelessWidget {
-  const FestivalsPage({super.key});
-  @override
-  Widget build(BuildContext context) => const _BlankPage(title: 'Festivals');
-}
->>>>>>> 17f664e0e7814130d9bed98675427164d356fa91
-
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
   @override
   Widget build(BuildContext context) => const _BlankPage(title: 'Settings');
+}
+
+// ------------------------------------------------------------
+// GENERIC BLANK PAGE WIDGET
+// ------------------------------------------------------------
+
+class _BlankPage extends StatelessWidget {
+  final String title;
+  const _BlankPage({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Center(
+        child: Text(
+          title,
+          style: const TextStyle(fontSize: 28),
+        ),
+      ),
+    );
+  }
 }
