@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// IMPORT YOUR REAL FESTIVALS PAGE
+import 'pages/festivals_page.dart';
+
 void main() {
   runApp(const LineupLifeApp());
 }
@@ -70,11 +73,12 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   int _currentIndex = 2; // Default to Home
 
+  // IMPORTANT: This now uses the REAL FestivalsPage
   final List<Widget> _pages = const [
     MyProfilePage(),
     ArtistsPage(),
     HomePage(),
-    FestivalsPage(),
+    FestivalsPage(),   // ← REAL PAGE
     SettingsPage(),
   ];
 
@@ -114,7 +118,7 @@ class _MainShellState extends State<MainShell> {
 }
 
 // ------------------------------------------------------------
-// BLANK PAGE WIDGETS
+// BLANK PAGE WIDGETS (KEEP THESE FOR OTHER TABS ONLY)
 // ------------------------------------------------------------
 
 class MyProfilePage extends StatelessWidget {
@@ -144,14 +148,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class FestivalsPage extends StatelessWidget {
-  const FestivalsPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const _BlankPage(title: 'Festivals');
-  }
-}
+// ❌ REMOVED THE OLD FestivalsPage HERE  
+// (It was overriding your real page)
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
