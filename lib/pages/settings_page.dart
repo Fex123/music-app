@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ArtistPage extends StatelessWidget {
-  const ArtistPage({super.key});
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class ArtistPage extends StatelessWidget {
         backgroundColor: Colors.black,
         elevation: 0,
         title: const Text(
-          'Artists',
+          'Settings',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 26,

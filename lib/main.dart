@@ -73,12 +73,11 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   int _currentIndex = 2; // Default to Home
 
-  // IMPORTANT: This now uses the REAL FestivalsPage
   final List<Widget> _pages = const [
     MyProfilePage(),
     ArtistsPage(),
     HomePage(),
-    FestivalsPage(),   // ← REAL PAGE
+    FestivalsPage(),   // ← YOUR REAL PAGE (correct class name)
     SettingsPage(),
   ];
 
@@ -118,7 +117,7 @@ class _MainShellState extends State<MainShell> {
 }
 
 // ------------------------------------------------------------
-// BLANK PAGE WIDGETS (KEEP THESE FOR OTHER TABS ONLY)
+// BLANK PAGE WIDGETS
 // ------------------------------------------------------------
 
 class MyProfilePage extends StatelessWidget {
@@ -146,7 +145,7 @@ class SettingsPage extends StatelessWidget {
 }
 
 // ------------------------------------------------------------
-// GENERIC BLANK PAGE WIDGET
+// GENERIC BLANK PAGE WIDGET (NO MIDDLE TITLE)
 // ------------------------------------------------------------
 
 class _BlankPage extends StatelessWidget {
@@ -157,12 +156,7 @@ class _BlankPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Text(
-          title,
-          style: const TextStyle(fontSize: 28),
-        ),
-      ),
+      body: const SizedBox.shrink(), // empty dark screen
     );
   }
 }
