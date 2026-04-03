@@ -350,116 +350,198 @@ class FestivalsPage extends StatelessWidget {
         ),
       ];
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(title: const Text("Festivals")),
-    body: ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        SizedBox(
-          height: 220,
-          child: PageView.builder(
-            controller: PageController(viewportFraction: 0.85),
-            itemCount: _festivals.length,
-            itemBuilder: (context, index) =>
-                _festivalCarouselTile(context, _festivals[index]),
-          ),
-        ),
-        const SizedBox(height: 30),
-        const Text(
-          "Festival News",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
-        _newsCard(title: "New stage designs announced", date: "2 days ago"),
-        _newsCard(title: "Massive B2B sets teased", date: "1 week ago"),
-        _newsCard(
-            title: "Global festival safety upgrades", date: "3 weeks ago"),
-        const SizedBox(height: 30),
-        const Text(
-          "All Festivals",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
-        ..._festivals.map((f) => _festivalListCard(context, f)),
-      ],
-    ),
-  );
-}
-
-Widget _festivalCarouselTile(BuildContext context, Festival festival) {
-  final daysLeft = festival.daysUntilNextEvent;
-
-  return GestureDetector(
-    onTap: () => Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => FestivalInfoPage(festival: festival),
+   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Festivals"),
+        elevation: 0,
       ),
-    ),
-    child: Container(
-      margin: const EdgeInsets.only(right: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        image: DecorationImage(
-          image: AssetImage(festival.image),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Container(
+      body: ListView(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          gradient: LinearGradient(
-            colors: [Colors.black.withOpacity(0.7), Colors.transparent],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ),
-        ),
-        child: Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            "${festival.name}\n${festival.location}\n$daysLeft days left",
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              height: 1.4,
-              color: Colors.white,
+        children: [
+
+          // ---------------------------------------------------------
+          // INSTAGRAM-STYLE STORY BUBBLES
+          // ---------------------------------------------------------
+          SizedBox(
+            height: 110,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              child: Row(
+                children: [
+                  for (final f in _festivals)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: _storyBubble(
+                        label: f.name,
+                        image: f.image,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => FestivalInfoPage(festival: f),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
+
+          const SizedBox(height: 28),
+
+          // ---------------------------------------------------------
+          // SECTION HEADER — FESTIVAL NEWS
+          // ---------------------------------------------------------
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 4),
+            child: Text(
+              "Festival News",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.3,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          _newsCard(title: "New stage designs announced", date: "2 days ago"),
+          _newsCard(title: "Massive B2B sets teased", date: "1 week ago"),
+          _newsCard(
+              title: "Global festival safety upgrades", date: "3 weeks ago"),
+
+          const SizedBox(height: 32),
+
+          // ---------------------------------------------------------
+          // SECTION HEADER — ALL FESTIVALS
+          // ---------------------------------------------------------
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 4),
+            child: Text(
+              "All Festivals",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.3,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          ..._festivals.map((f) {
+            return AnimatedOpacity(
+              duration: const Duration(milliseconds: 300),
+              opacity: 1,
+              child: _festivalListCard(context, f),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------
+  // INSTAGRAM-STYLE STORY BUBBLE WITH GRADIENT RING
+  // ---------------------------------------------------------
+  Widget _storyBubble({
+    required String label,
+    required String image,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(3),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFFF5F6D),
+                  Color(0xFFFFC371),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(image),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 6),
+
+          SizedBox(
+            width: 70,
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------
+  // NEWS CARD (POLISHED)
+  // ---------------------------------------------------------
+  Widget _newsCard({required String title, required String date}) {
+    return Card(
+      elevation: 2,
+      shadowColor: Colors.black12,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      margin: const EdgeInsets.only(bottom: 12),
+      child: ListTile(
+        leading: const Icon(Icons.newspaper, size: 32),
+        title: Text(title),
+        subtitle: Text(date),
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------
+  // FESTIVAL LIST CARD (POLISHED)
+  // ---------------------------------------------------------
+  Widget _festivalListCard(BuildContext context, Festival festival) {
+    return Card(
+      elevation: 2,
+      shadowColor: Colors.black12,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      margin: const EdgeInsets.only(bottom: 12),
+      child: ListTile(
+        leading: const Icon(Icons.festival, size: 32),
+        title: Text(festival.name),
+        subtitle: Text(festival.location),
+        trailing: const Icon(Icons.arrow_forward_ios),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => FestivalInfoPage(festival: festival),
+          ),
         ),
       ),
-    ),
-  );
-}
-
-Widget _newsCard({required String title, required String date}) {
-  return Card(
-    margin: const EdgeInsets.only(bottom: 12),
-    child: ListTile(
-      leading: const Icon(Icons.newspaper, size: 32),
-      title: Text(title),
-      subtitle: Text(date),
-    ),
-  );
-}
-
-Widget _festivalListCard(BuildContext context, Festival festival) {
-  return Card(
-    margin: const EdgeInsets.only(bottom: 12),
-    child: ListTile(
-      leading: const Icon(Icons.festival, size: 32),
-      title: Text(festival.name),
-      subtitle: Text(festival.location),
-      trailing: const Icon(Icons.arrow_forward_ios),
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => FestivalInfoPage(festival: festival),
-        ),
-      ),
-    ),
-  );
-}
+    );
+  }
 }
