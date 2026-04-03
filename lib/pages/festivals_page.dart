@@ -352,6 +352,13 @@ class FestivalsPage extends StatelessWidget {
 
 @override
 Widget build(BuildContext context) {
+  // ---------------------------------------------------------
+  // SORT FESTIVALS BY NEXT UPCOMING DATE
+  // ---------------------------------------------------------
+  final sortedFestivals = [..._festivals]
+    ..sort((a, b) =>
+      nextFestivalDate(a.startDate).compareTo(nextFestivalDate(b.startDate)));
+
   return Scaffold(
     appBar: AppBar(
       title: const Text("Festivals"),
@@ -371,13 +378,13 @@ Widget build(BuildContext context) {
             physics: const BouncingScrollPhysics(),
             child: Row(
               children: [
-                for (final f in _festivals)
+                for (final f in sortedFestivals)
                   Padding(
                     padding: const EdgeInsets.only(right: 12),
                     child: _storyBubble(
                       label: f.name,
                       image: f.image,
-                      startDate: f.startDate,   // <-- IMPORTANT
+                      startDate: f.startDate,
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -434,7 +441,7 @@ Widget build(BuildContext context) {
 
         const SizedBox(height: 12),
 
-        ..._festivals.map((f) {
+        ...sortedFestivals.map((f) {
           return AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             opacity: 1,
@@ -447,17 +454,22 @@ Widget build(BuildContext context) {
 }
 
 // ---------------------------------------------------------
-// COUNTDOWN HELPER — NOW CALCULATES NEXT YEAR IF PASSED
+// GET NEXT FESTIVAL DATE (IF PASSED, MOVE TO NEXT YEAR)
+// ---------------------------------------------------------
+DateTime nextFestivalDate(DateTime date) {
+  final now = DateTime.now();
+  if (date.isBefore(now)) {
+    return DateTime(date.year + 1, date.month, date.day);
+  }
+  return date;
+}
+
+// ---------------------------------------------------------
+// COUNTDOWN — ALWAYS COUNTS TO THE NEXT FESTIVAL DATE
 // ---------------------------------------------------------
 String countdownTo(DateTime date) {
-  final now = DateTime.now();
-
-  // If the festival already happened this year → shift to next year
-  if (date.isBefore(now)) {
-    date = DateTime(date.year + 1, date.month, date.day);
-  }
-
-  final diff = date.difference(now);
+  final nextDate = nextFestivalDate(date);
+  final diff = nextDate.difference(DateTime.now());
 
   if (diff.inDays > 0) return '${diff.inDays}d';
   if (diff.inHours > 0) return '${diff.inHours}h';
