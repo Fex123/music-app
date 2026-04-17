@@ -77,7 +77,7 @@ class _MainShellState extends State<MainShell> {
     MyProfilePage(),
     ArtistsPage(),
     HomePage(),
-    FestivalsPage(),   // ← YOUR REAL PAGE (correct class name)
+    FestivalsPage(),   // ← YOUR REAL PAGE
     SettingsPage(),
   ];
 
